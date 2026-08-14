@@ -34,8 +34,8 @@ jobs:
           from pathlib import Path
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
-          head = '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/><link rel="stylesheet" href="/StudyForge/study-center.css?v=4"/><link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=1"/>'
-          loader = '<script defer src="/StudyForge/study-center.js?v=4"></script>'
+          head = '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/><link rel="stylesheet" href="/StudyForge/study-center.css?v=5"/><link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=2"/>'
+          loader = '<script defer src="/StudyForge/study-center.js?v=5"></script>'
           if '/StudyForge/manifest.webmanifest' not in s:
               s = s.replace('</head>', head + '</head>')
           if '/StudyForge/study-center.js' not in s:
