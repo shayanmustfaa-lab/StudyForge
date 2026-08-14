@@ -39,11 +39,28 @@
 #sf-center .sf-card select,
 #sf-center .sf-testbox { color:var(--ink,#f6f2ff); }
 
-/* Dark statistic tiles need light text. This intentionally overrides the general white-card strong/small rules above. */
+/* Dark statistic tiles need light text. */
 #sf-center .sf-card .sf-statrow > div { background:#14101f !important; color:#ffffff !important; }
 #sf-center .sf-card .sf-statrow strong { color:#ffffff !important; }
 #sf-center .sf-card .sf-statrow span,
 #sf-center .sf-card .sf-statrow small { color:#bdb7c9 !important; }
+
+/* Syllabus tab contrast: its section header sits directly on the dark Study Center shell. */
+#sf-center .sf-section-head h3 { color:#ffffff !important; }
+#sf-center .sf-section-head .sf-kicker { color:#f36a2d !important; }
+#sf-center .sf-accordion details { background:#ffffff !important; color:#17132b !important; }
+#sf-center .sf-accordion summary { color:#17132b !important; }
+#sf-center .sf-accordion summary small { color:#777389 !important; }
+#sf-center .sf-syllabus-list > div > span { color:#17132b !important; }
+#sf-center .sf-syllabus-list select {
+  background:#14101f !important;
+  color:#ffffff !important;
+  border-color:#2f2940 !important;
+}
+#sf-center .sf-syllabus-list select option {
+  background:#14101f !important;
+  color:#ffffff !important;
+}
 
 #sf-center .sf-searchbar input { background:#fff !important; color:#17132b !important; }
 #sf-center .sf-searchbar input::placeholder { color:#9993a6 !important; }
