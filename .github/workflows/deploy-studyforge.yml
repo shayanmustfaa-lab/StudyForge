@@ -1,0 +1,101 @@
+name: Mirror and Deploy StudyForge
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - ".github/workflows/deploy-studyforge.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "studyforge-pages"
+  cancel-in-progress: true
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Mirror exact StudyForge runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://parhai-tracker.shayanmustfaa.chatgpt.site"
+          rm -rf site
+          mkdir -p site/assets/_vinext_fonts/geist-8ac0455e797f
+          mkdir -p site/assets/_vinext_fonts/geist-mono-00e989178794
+
+          curl -fsSL "$BASE/" -o site/index.html
+          curl -fsSL "$BASE/favicon.svg" -o site/favicon.svg
+
+          for file in \
+            assets/framework-CXnKph_e.js \
+            assets/index-3D-xvmeP.js \
+            assets/index-8gs8kE9x.css \
+            assets/layout-segment-context-BEn7xxCh.js \
+            assets/page-BU6xjBOL.js \
+            assets/rolldown-runtime-S-ySWqyJ.js \
+            assets/_vinext_fonts/geist-8ac0455e797f/geist-001175b1.woff2 \
+            assets/_vinext_fonts/geist-8ac0455e797f/geist-52306abf.woff2 \
+            assets/_vinext_fonts/geist-8ac0455e797f/geist-875ccdd4.woff2 \
+            assets/_vinext_fonts/geist-8ac0455e797f/geist-98bbbccb.woff2 \
+            assets/_vinext_fonts/geist-8ac0455e797f/geist-ff2310f5.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-013b2f2f.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-0638449e.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-44745446.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-44e03052.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-971fb274.woff2 \
+            assets/_vinext_fonts/geist-mono-00e989178794/geist-mono-f6b33328.woff2
+          do
+            mkdir -p "site/$(dirname "$file")"
+            curl -fsSL "$BASE/$file" -o "site/$file"
+          done
+
+          # Hosting-only path adaptation for a GitHub project site.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('site/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('/assets/', '/StudyForge/assets/')
+          s = s.replace('/favicon.svg', '/StudyForge/favicon.svg')
+          p.write_text(s, encoding='utf-8')
+          Path('site/404.html').write_text(s, encoding='utf-8')
+          PY
+
+          touch site/.nojekyll
+
+      - name: Save standalone mirror in repository
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f site
+          if ! git diff --cached --quiet; then
+            git commit -m "Save standalone StudyForge mirror [skip ci]"
+            git push
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: mirror
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy StudyForge
+        id: deployment
+        uses: actions/deploy-pages@v4
