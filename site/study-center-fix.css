@@ -45,7 +45,7 @@
 #sf-center .sf-card .sf-statrow span,
 #sf-center .sf-card .sf-statrow small { color:#bdb7c9 !important; }
 
-/* Syllabus tab contrast: its section header sits directly on the dark Study Center shell. */
+/* Syllabus tab contrast. */
 #sf-center .sf-section-head h3 { color:#ffffff !important; }
 #sf-center .sf-section-head .sf-kicker { color:#f36a2d !important; }
 #sf-center .sf-accordion details { background:#ffffff !important; color:#17132b !important; }
@@ -61,6 +61,28 @@
   background:#14101f !important;
   color:#ffffff !important;
 }
+
+/* Test Centre question panel is a dark surface inside a white card. */
+#sf-center .sf-card .sf-testbox {
+  background:#14101f !important;
+  color:#ffffff !important;
+}
+#sf-center .sf-card .sf-testbox h1,
+#sf-center .sf-card .sf-testbox h2,
+#sf-center .sf-card .sf-testbox h3,
+#sf-center .sf-card .sf-testbox h4,
+#sf-center .sf-card .sf-testbox h5,
+#sf-center .sf-card .sf-testbox h6,
+#sf-center .sf-card .sf-testbox b,
+#sf-center .sf-card .sf-testbox strong { color:#ffffff !important; }
+#sf-center .sf-card .sf-testbox span,
+#sf-center .sf-card .sf-testbox small { color:#bdb7c9 !important; }
+#sf-center .sf-card .sf-testbox textarea {
+  background:#0f0c17 !important;
+  color:#ffffff !important;
+  border-color:#342d45 !important;
+}
+#sf-center .sf-card .sf-testbox textarea::placeholder { color:#8f899d !important; }
 
 #sf-center .sf-searchbar input { background:#fff !important; color:#17132b !important; }
 #sf-center .sf-searchbar input::placeholder { color:#9993a6 !important; }
