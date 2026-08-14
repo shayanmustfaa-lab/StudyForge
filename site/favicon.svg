@@ -1,0 +1,27 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="34" y1="24" x2="222" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9B88FF"/>
+      <stop offset=".52" stop-color="#6F54ED"/>
+      <stop offset="1" stop-color="#4930BE"/>
+    </linearGradient>
+    <linearGradient id="page" x1="75" y1="66" x2="179" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white"/>
+      <stop offset="1" stop-color="#E9E3FF"/>
+    </linearGradient>
+    <filter id="shadow" x="22" y="24" width="212" height="220" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="12" stdDeviation="13" flood-color="#24156B" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect x="16" y="16" width="224" height="224" rx="62" fill="url(#bg)"/>
+  <circle cx="198" cy="58" r="20" fill="white" fill-opacity=".13"/>
+  <circle cx="50" cy="204" r="29" fill="white" fill-opacity=".08"/>
+  <g filter="url(#shadow)">
+    <path d="M58 73c25-9 48-4 70 14v112c-21-16-44-22-70-14V73Z" fill="url(#page)"/>
+    <path d="M198 73c-25-9-48-4-70 14v112c21-16 44-22 70-14V73Z" fill="url(#page)"/>
+    <path d="M128 87v112" stroke="#C8BCFB" stroke-width="5" stroke-linecap="round"/>
+    <path d="M78 101h29M78 120h35M78 139h25" stroke="#7861DF" stroke-width="7" stroke-linecap="round" opacity=".72"/>
+    <path d="M149 102c8-8 29-7 29 6 0 17-31 9-31 26 0 14 22 16 34 6" stroke="#6F54ED" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <path d="m198 42 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Z" fill="#FFF3A6"/>
+</svg>
