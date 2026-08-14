@@ -1,0 +1,43 @@
+/* Emergency contrast layer for Study Center white surfaces. Kept separate so stale service-worker caches cannot hide the fix. */
+#sf-center .sf-card,
+#sf-center .sf-accordion details,
+#sf-center .sf-table,
+#sf-center .sf-tabs button:not(.active),
+#sf-center .sf-chip,
+#sf-center .sf-secondary,
+#sf-center .sf-table button,
+#sf-center .sf-close { color:#17132b !important; }
+
+#sf-center .sf-card h1,
+#sf-center .sf-card h2,
+#sf-center .sf-card h3,
+#sf-center .sf-card h4,
+#sf-center .sf-card h5,
+#sf-center .sf-card h6,
+#sf-center .sf-card strong,
+#sf-center .sf-card b,
+#sf-center .sf-accordion summary,
+#sf-center .sf-table > div:not(.head),
+#sf-center .sf-chip,
+#sf-center .sf-secondary,
+#sf-center .sf-table button { color:#17132b !important; }
+
+#sf-center .sf-card p,
+#sf-center .sf-card label,
+#sf-center .sf-card small,
+#sf-center .sf-card .sf-list span,
+#sf-center .sf-card .sf-list small,
+#sf-center .sf-accordion summary small,
+#sf-center .sf-tabs button:not(.active),
+#sf-center .sf-table .head,
+#sf-center .sf-note,
+#sf-center .sf-empty { color:#777389 !important; }
+
+#sf-center .sf-card .sf-statrow > div,
+#sf-center .sf-card input,
+#sf-center .sf-card textarea,
+#sf-center .sf-card select,
+#sf-center .sf-testbox { color:var(--ink,#f6f2ff); }
+
+#sf-center .sf-searchbar input { background:#fff !important; color:#17132b !important; }
+#sf-center .sf-searchbar input::placeholder { color:#9993a6 !important; }
