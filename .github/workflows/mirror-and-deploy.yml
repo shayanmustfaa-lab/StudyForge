@@ -27,7 +27,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Integrate Study Center without changing base UI
+      - name: Integrate StudyForge modules without changing base UI
         shell: bash
         run: |
           python3 - <<'PY'
@@ -40,6 +40,7 @@ jobs:
               ('/StudyForge/study-center.css', '<link rel="stylesheet" href="/StudyForge/study-center.css?v=6"/>'),
               ('/StudyForge/study-center-fix.css', '<link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=3"/>'),
               ('/StudyForge/study-center-plus.css', '<link rel="stylesheet" href="/StudyForge/study-center-plus.css?v=1"/>'),
+              ('/StudyForge/marks-predictor-standalone.css', '<link rel="stylesheet" href="/StudyForge/marks-predictor-standalone.css?v=1"/>'),
           ]
           for marker, tag in head_items:
               if marker not in s:
@@ -48,6 +49,7 @@ jobs:
           body_items = [
               ('/StudyForge/study-center.js', '<script defer src="/StudyForge/study-center.js?v=6"></script>'),
               ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=1"></script>'),
+              ('/StudyForge/marks-predictor-standalone.js', '<script defer src="/StudyForge/marks-predictor-standalone.js?v=1"></script>'),
           ]
           for marker, tag in body_items:
               if marker not in s:
