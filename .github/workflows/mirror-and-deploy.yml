@@ -34,12 +34,25 @@ jobs:
           from pathlib import Path
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
-          head = '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/><link rel="stylesheet" href="/StudyForge/study-center.css?v=5"/><link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=2"/>'
-          loader = '<script defer src="/StudyForge/study-center.js?v=5"></script>'
-          if '/StudyForge/manifest.webmanifest' not in s:
-              s = s.replace('</head>', head + '</head>')
-          if '/StudyForge/study-center.js' not in s:
-              s = s.replace('</body>', loader + '</body>')
+
+          head_items = [
+              ('/StudyForge/manifest.webmanifest', '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/>'),
+              ('/StudyForge/study-center.css', '<link rel="stylesheet" href="/StudyForge/study-center.css?v=6"/>'),
+              ('/StudyForge/study-center-fix.css', '<link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=3"/>'),
+              ('/StudyForge/study-center-plus.css', '<link rel="stylesheet" href="/StudyForge/study-center-plus.css?v=1"/>'),
+          ]
+          for marker, tag in head_items:
+              if marker not in s:
+                  s = s.replace('</head>', tag + '</head>')
+
+          body_items = [
+              ('/StudyForge/study-center.js', '<script defer src="/StudyForge/study-center.js?v=6"></script>'),
+              ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=1"></script>'),
+          ]
+          for marker, tag in body_items:
+              if marker not in s:
+                  s = s.replace('</body>', tag + '</body>')
+
           p.write_text(s, encoding='utf-8')
           q = Path('site/404.html')
           if q.exists():
