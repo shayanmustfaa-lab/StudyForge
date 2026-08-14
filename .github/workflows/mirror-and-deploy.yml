@@ -1,14 +1,15 @@
-name: Deploy exact StudyForge clone
+name: Deploy StudyForge
 
 on:
   push:
+    branches: ["main"]
     paths:
       - '.github/workflows/mirror-and-deploy.yml'
-      - 'StudyForge-Website-Exact-Clone.zip'
+      - 'site/**'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -26,75 +27,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract exact StudyForge clone
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f StudyForge-Website-Exact-Clone.zip
-          rm -rf _extract site
-          mkdir -p _extract site
-          unzip -q StudyForge-Website-Exact-Clone.zip -d _extract
-          SRC="$(find _extract -type f -name index.html -printf '%h\n' | head -n 1)"
-          test -n "$SRC"
-          cp -a "$SRC"/. site/
-          touch site/.nojekyll
-
-      - name: Adapt only hosting paths
-        shell: bash
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-
-          root = Path('site')
-          replacements = {
-              '/assets/': '/StudyForge/assets/',
-              '/favicon.svg': '/StudyForge/favicon.svg',
-              '/file.svg': '/StudyForge/file.svg',
-              '/globe.svg': '/StudyForge/globe.svg',
-              '/window.svg': '/StudyForge/window.svg',
-          }
-          text_exts = {'.html', '.css', '.js', '.json', '.svg', '.txt'}
-          for p in root.rglob('*'):
-              if not p.is_file():
-                  continue
-              if p.suffix.lower() not in text_exts and p.name not in {'_headers', '_redirects', '.assetsignore'}:
-                  continue
-              try:
-                  s = p.read_text(encoding='utf-8')
-              except UnicodeDecodeError:
-                  continue
-              old = s
-              for a, b in replacements.items():
-                  s = s.replace(a, b)
-              if s != old:
-                  p.write_text(s, encoding='utf-8')
-
-          index = root / 'index.html'
-          if index.exists():
-              (root / '404.html').write_text(index.read_text(encoding='utf-8'), encoding='utf-8')
-          PY
-
-      - name: Save standalone website files
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f site
-          if ! git diff --cached --quiet; then
-            git commit -m "Publish exact standalone StudyForge clone [skip ci]"
-            git push
-          fi
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy StudyForge
         id: deployment
         uses: actions/deploy-pages@v4
