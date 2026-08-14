@@ -1,0 +1,110 @@
+name: Mirror and deploy StudyForge
+
+on:
+  push:
+    paths:
+      - '.github/workflows/mirror-and-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Mirror exact StudyForge site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _mirror
+          mkdir -p _mirror
+          wget \
+            --mirror \
+            --page-requisites \
+            --convert-links \
+            --adjust-extension \
+            --no-parent \
+            --execute robots=off \
+            --directory-prefix=_mirror \
+            https://parhai-tracker.shayanmustfaa.chatgpt.site/
+
+          SRC="_mirror/parhai-tracker.shayanmustfaa.chatgpt.site"
+          test -f "$SRC/index.html"
+
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '.git' \
+            ! -name '.github' \
+            ! -name '_mirror' \
+            -exec rm -rf {} +
+
+          cp -a "$SRC"/. .
+          rm -rf _mirror
+          touch .nojekyll
+
+      - name: Fix project-site asset paths without changing UI
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              '/assets/': '/StudyForge/assets/',
+              '/favicon.svg': '/StudyForge/favicon.svg',
+              '/file.svg': '/StudyForge/file.svg',
+              '/globe.svg': '/StudyForge/globe.svg',
+              '/window.svg': '/StudyForge/window.svg',
+          }
+          text_exts = {'.html', '.css', '.js', '.json', '.svg', '.txt'}
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or '.git' in p.parts or '.github' in p.parts:
+                  continue
+              if p.suffix.lower() not in text_exts and p.name not in {'_headers', '_redirects', '.assetsignore'}:
+                  continue
+              try:
+                  s = p.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              old = s
+              for a, b in replacements.items():
+                  s = s.replace(a, b)
+              if s != old:
+                  p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Save mirrored site in repository
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Mirror exact StudyForge website"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
