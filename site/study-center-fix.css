@@ -39,5 +39,11 @@
 #sf-center .sf-card select,
 #sf-center .sf-testbox { color:var(--ink,#f6f2ff); }
 
+/* Dark statistic tiles need light text. This intentionally overrides the general white-card strong/small rules above. */
+#sf-center .sf-card .sf-statrow > div { background:#14101f !important; color:#ffffff !important; }
+#sf-center .sf-card .sf-statrow strong { color:#ffffff !important; }
+#sf-center .sf-card .sf-statrow span,
+#sf-center .sf-card .sf-statrow small { color:#bdb7c9 !important; }
+
 #sf-center .sf-searchbar input { background:#fff !important; color:#17132b !important; }
 #sf-center .sf-searchbar input::placeholder { color:#9993a6 !important; }
