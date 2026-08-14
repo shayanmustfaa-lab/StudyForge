@@ -41,6 +41,7 @@ jobs:
               ('/StudyForge/study-center-fix.css', '<link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=3"/>'),
               ('/StudyForge/study-center-plus.css', '<link rel="stylesheet" href="/StudyForge/study-center-plus.css?v=1"/>'),
               ('/StudyForge/marks-predictor-standalone.css', '<link rel="stylesheet" href="/StudyForge/marks-predictor-standalone.css?v=1"/>'),
+              ('/StudyForge/book-solutions.css', '<link rel="stylesheet" href="/StudyForge/book-solutions.css?v=1"/>'),
           ]
           for marker, tag in head_items:
               if marker not in s:
@@ -50,6 +51,8 @@ jobs:
               ('/StudyForge/study-center.js', '<script defer src="/StudyForge/study-center.js?v=6"></script>'),
               ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=1"></script>'),
               ('/StudyForge/marks-predictor-standalone.js', '<script defer src="/StudyForge/marks-predictor-standalone.js?v=1"></script>'),
+              ('/StudyForge/book-solutions-data.js', '<script defer src="/StudyForge/book-solutions-data.js?v=1"></script>'),
+              ('/StudyForge/book-solutions.js', '<script defer src="/StudyForge/book-solutions.js?v=1"></script>'),
           ]
           for marker, tag in body_items:
               if marker not in s:
