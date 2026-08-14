@@ -1,0 +1,11 @@
+{
+  "name":"StudyForge",
+  "short_name":"StudyForge",
+  "description":"Daily lessons, tests, revision and mastery progress.",
+  "start_url":"/StudyForge/",
+  "scope":"/StudyForge/",
+  "display":"standalone",
+  "background_color":"#f5f4f8",
+  "theme_color":"#6f54ed",
+  "icons":[{"src":"/StudyForge/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
