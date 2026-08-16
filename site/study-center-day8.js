@@ -18,8 +18,6 @@
   const read=(k,f={})=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch{return f}};
   const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 
-  // Correct the previously mislabeled Day 9 local record to Day 8 without
-  // duplicating XP or study dates. Day 9 is reserved for the weekly test.
   if(localStorage.getItem(WRONG_DAY9_STORE)) localStorage.removeItem(WRONG_DAY9_STORE);
   write(DAY8_STORE,day8);
 
@@ -49,7 +47,6 @@
   }
   write(PLUS_STORE,plus);
 
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const findKicker=text=>[...document.querySelectorAll('#sf-center .sf-kicker')].find(x=>x.textContent.trim()===text);
 
   function patchToday(){
@@ -62,10 +59,12 @@
     if(stats[2])stats[2].textContent='100%';
     const list=card.querySelector('.sf-list');
     if(list){
-      list.querySelectorAll('[data-day9-row],[data-day8-row]').forEach(x=>x.remove());
-      const row=document.createElement('div'); row.dataset.day8Row='1';
-      row.innerHTML='<b>D8</b><span>16 Aug · Computer, Pak Studies, Tarjuma-tul-Quran</span><strong>49/49</strong>';
-      list.prepend(row);
+      list.querySelectorAll('[data-day9-row]').forEach(x=>x.remove());
+      if(!list.querySelector('[data-day8-row]')){
+        const row=document.createElement('div'); row.dataset.day8Row='1';
+        row.innerHTML='<b>D8</b><span>16 Aug · Computer, Pak Studies, Tarjuma-tul-Quran</span><strong>49/49</strong>';
+        list.prepend(row);
+      }
     }
     if(!card.querySelector('[data-day8-extra]')){
       card.querySelector('[data-day9-extra]')?.remove();
