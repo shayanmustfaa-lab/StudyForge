@@ -34,10 +34,7 @@ jobs:
           from pathlib import Path
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
-
-          # Keep the original StudyForge design. The latest completed study
-          # session is Day 8; Day 9 is reserved for the weekly test.
-          overview_replacements = [
+          replacements = [
               ('<strong>14 Aug 2026</strong>', '<strong>16 Aug 2026</strong>'),
               ('DAY <!-- -->7<!-- --> COMPLETE', 'DAY <!-- -->8<!-- --> COMPLETE'),
               ('<h2>7<!-- --> study days. Strong start.</h2>', '<h2>8<!-- --> study days. Strong start.</h2>'),
@@ -52,55 +49,11 @@ jobs:
               ('<span>Tarjuma-tul-Quran</span><strong>22<!-- -->/<!-- -->22</strong>', '<span>Tarjuma-tul-Quran</span><strong>47<!-- -->/<!-- -->47</strong>'),
               ('<h3>Day <!-- -->7<!-- --> snapshot</h3>', '<h3>Day <!-- -->8<!-- --> snapshot</h3>'),
           ]
-          for old, new in overview_replacements:
+          for old, new in replacements:
               s = s.replace(old, new)
-
-          # Fix the Day 8 history card so it is not destroyed/recreated by
-          # its MutationObserver. That loop was cancelling row clicks.
-          ov = Path('site/overview-day8.js')
-          if ov.exists():
-              ovs = ov.read_text(encoding='utf-8')
-              old = "function history(){const list=document.querySelector('.history-view .day-list');if(!list)return;list.querySelectorAll('[data-studyforge-day9],[data-studyforge-day8]').forEach(x=>x.remove());list.prepend(historyCard());}"
-              new = "function history(){const list=document.querySelector('.history-view .day-list');if(!list)return;list.querySelectorAll('[data-studyforge-day9]').forEach(x=>x.remove());if(!list.querySelector('[data-studyforge-day8]'))list.prepend(historyCard());}"
-              ovs = ovs.replace(old, new)
-              ov.write_text(ovs, encoding='utf-8')
-
-          # Make the Study Center Day 8 row idempotent as well, so opening
-          # Study Center does not continuously rebuild the progress row.
-          sc = Path('site/study-center-day8.js')
-          if sc.exists():
-              scs = sc.read_text(encoding='utf-8')
-              old = """    if(list){
-      list.querySelectorAll('[data-day9-row],[data-day8-row]').forEach(x=>x.remove());
-      const row=document.createElement('div'); row.dataset.day8Row='1';
-      row.innerHTML='<b>D8</b><span>16 Aug · Computer, Pak Studies, Tarjuma-tul-Quran</span><strong>49/49</strong>';
-      list.prepend(row);
-    }"""
-              new = """    if(list){
-      list.querySelectorAll('[data-day9-row]').forEach(x=>x.remove());
-      if(!list.querySelector('[data-day8-row]')){
-        const row=document.createElement('div'); row.dataset.day8Row='1';
-        row.innerHTML='<b>D8</b><span>16 Aug · Computer, Pak Studies, Tarjuma-tul-Quran</span><strong>49/49</strong>';
-        list.prepend(row);
-      }
-    }"""
-              scs = scs.replace(old, new)
-              sc.write_text(scs, encoding='utf-8')
-
-          # Correct stale aggregate copy inside power tools / standalone
-          # predictor without altering their UI or behavior.
-          for name in ['site/study-center-plus.js', 'site/marks-predictor-standalone.js']:
-              fp = Path(name)
-              if fp.exists():
-                  txt = fp.read_text(encoding='utf-8')
-                  txt = txt.replace('Current recorded final marks: 237/237.', 'Current recorded final marks: 286/286.')
-                  if name.endswith('study-center-plus.js'):
-                      txt = txt.replace('Math.max(0,20-7)', 'Math.max(0,20-8)')
-                  fp.write_text(txt, encoding='utf-8')
-
           head_items = [
               ('/StudyForge/manifest.webmanifest', '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/>'),
-              ('/StudyForge/study-center-day8.js', '<script defer src="/StudyForge/study-center-day8.js?v=3"></script>'),
+              ('/StudyForge/study-center-day8.js', '<script defer src="/StudyForge/study-center-day8.js?v=4"></script>'),
               ('/StudyForge/study-center.css', '<link rel="stylesheet" href="/StudyForge/study-center.css?v=6"/>'),
               ('/StudyForge/study-center-fix.css', '<link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=3"/>'),
               ('/StudyForge/study-center-plus.css', '<link rel="stylesheet" href="/StudyForge/study-center-plus.css?v=1"/>'),
@@ -110,21 +63,19 @@ jobs:
           for marker, tag in head_items:
               if marker not in s:
                   s = s.replace('</head>', tag + '</head>')
-
           body_items = [
               ('/StudyForge/study-center.js', '<script defer src="/StudyForge/study-center.js?v=6"></script>'),
-              ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=2"></script>'),
-              ('/StudyForge/marks-predictor-standalone.js', '<script defer src="/StudyForge/marks-predictor-standalone.js?v=2"></script>'),
+              ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=1"></script>'),
+              ('/StudyForge/marks-predictor-standalone.js', '<script defer src="/StudyForge/marks-predictor-standalone.js?v=1"></script>'),
               ('/StudyForge/book-solutions-data.js', '<script defer src="/StudyForge/book-solutions-data.js?v=1"></script>'),
               ('/StudyForge/book-solutions-day9.js', '<script defer src="/StudyForge/book-solutions-day9.js?v=1"></script>'),
               ('/StudyForge/book-solutions.js', '<script defer src="/StudyForge/book-solutions.js?v=1"></script>'),
-              ('/StudyForge/overview-day8.js', '<script defer src="/StudyForge/overview-day8.js?v=3"></script>'),
-              ('/StudyForge/site-progress-day8.js', '<script defer src="/StudyForge/site-progress-day8.js?v=1"></script>'),
+              ('/StudyForge/overview-day8.js', '<script defer src="/StudyForge/overview-day8.js?v=4"></script>'),
+              ('/StudyForge/site-progress-day8.js', '<script defer src="/StudyForge/site-progress-day8.js?v=2"></script>'),
           ]
           for marker, tag in body_items:
               if marker not in s:
                   s = s.replace('</body>', tag + '</body>')
-
           p.write_text(s, encoding='utf-8')
           q = Path('site/404.html')
           if q.exists():
