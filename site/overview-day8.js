@@ -71,7 +71,7 @@
     const card=document.createElement('article');card.className='day-card';card.dataset.studyforgeDay8='1';
     card.innerHTML=`<div class="day-number"><span>DAY</span><strong>8</strong></div><div class="day-main"><div class="day-title-row"><div><p>16 AUG 2026 · DAY 8</p><h2>Computer + Pak Studies + Tarjuma-tul-Quran — full concept mastery</h2></div><div class="day-score"><strong>49/49</strong><span>Mastered</span></div></div><div class="lesson-table"><div class="lesson-head"><span>Subject</span><span>Topic</span><span>Marks</span><span>Status</span></div>${rows}</div><div class="retest-note"><span>+</span><p><b>Extra practice:</b> Maths Unit 2 — completing square, quadratic formula, discriminant, graphical roots and coordinate-axis intersections. Corrections were retested and mastered.</p></div></div>`;return card;
   }
-  function history(){const list=document.querySelector('.history-view .day-list');if(!list)return;list.querySelectorAll('[data-studyforge-day9],[data-studyforge-day8]').forEach(x=>x.remove());list.prepend(historyCard());}
+  function history(){const list=document.querySelector('.history-view .day-list');if(!list)return;list.querySelectorAll('[data-studyforge-day9]').forEach(x=>x.remove());if(!list.querySelector('[data-studyforge-day8]'))list.prepend(historyCard());}
   function details(id){
     const x=record.lessonsToday.find(v=>v.id===id);if(!x)return;document.querySelector('[data-day8-modal]')?.remove();
     const m=document.createElement('div');m.className='lesson-modal-backdrop';m.dataset.day8Modal='1';
