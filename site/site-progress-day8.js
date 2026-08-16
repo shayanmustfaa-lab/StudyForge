@@ -140,9 +140,14 @@
     const center = document.getElementById('sf-center');
     if (center) {
       replaceText(center, [
-        [/\bCurrent recorded final marks:\s*237\s*\/\s*237\.?/gi, 'Current recorded final marks: 286/286.'],
-        [/\b13\b(?=\s*Recorded study days to Day-20 reward)/g, '12']
+        [/\bCurrent recorded final marks:\s*237\s*\/\s*237\.?/gi, 'Current recorded final marks: 286/286.']
       ]);
+      [...center.querySelectorAll('.sfp-card')].forEach(card => {
+        if (/Recorded study days to Day-20 reward/i.test(card.textContent)) {
+          const strong = card.querySelector('.sfp-big');
+          if (strong) setText(strong, '12');
+        }
+      });
     }
 
     const predictor = document.getElementById('sf-marks-predictor');
