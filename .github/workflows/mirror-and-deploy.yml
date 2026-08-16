@@ -37,6 +37,7 @@ jobs:
 
           head_items = [
               ('/StudyForge/manifest.webmanifest', '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/>'),
+              ('/StudyForge/study-center-day9.js', '<script defer src="/StudyForge/study-center-day9.js?v=1"></script>'),
               ('/StudyForge/study-center.css', '<link rel="stylesheet" href="/StudyForge/study-center.css?v=6"/>'),
               ('/StudyForge/study-center-fix.css', '<link rel="stylesheet" href="/StudyForge/study-center-fix.css?v=3"/>'),
               ('/StudyForge/study-center-plus.css', '<link rel="stylesheet" href="/StudyForge/study-center-plus.css?v=1"/>'),
@@ -52,6 +53,7 @@ jobs:
               ('/StudyForge/study-center-plus.js', '<script defer src="/StudyForge/study-center-plus.js?v=1"></script>'),
               ('/StudyForge/marks-predictor-standalone.js', '<script defer src="/StudyForge/marks-predictor-standalone.js?v=1"></script>'),
               ('/StudyForge/book-solutions-data.js', '<script defer src="/StudyForge/book-solutions-data.js?v=1"></script>'),
+              ('/StudyForge/book-solutions-day9.js', '<script defer src="/StudyForge/book-solutions-day9.js?v=1"></script>'),
               ('/StudyForge/book-solutions.js', '<script defer src="/StudyForge/book-solutions.js?v=1"></script>'),
           ]
           for marker, tag in body_items:
