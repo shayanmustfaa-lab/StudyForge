@@ -35,6 +35,26 @@ jobs:
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
 
+          # Keep the original StudyForge design, but make the server-rendered
+          # Overview show the latest mastered Day 9 record immediately.
+          overview_replacements = [
+              ('<strong>14 Aug 2026</strong>', '<strong>16 Aug 2026</strong>'),
+              ('DAY <!-- -->7<!-- --> COMPLETE', 'DAY <!-- -->9<!-- --> COMPLETE'),
+              ('<h2>7<!-- --> study days. Strong start.</h2>', '<h2>8<!-- --> study days. Strong start.</h2>'),
+              ('<strong>237<small>/<!-- -->237</small></strong>', '<strong>286<small>/<!-- -->286</small></strong>'),
+              ('<p>7<!-- --> scored days</p>', '<p>8<!-- --> scored days</p>'),
+              ('<span class="metric-icon purple">07</span><div><small>Study days</small><strong>7</strong><p>Day 1 to Day <!-- -->7</p>', '<span class="metric-icon purple">08</span><div><small>Study days</small><strong>8</strong><p>Day 1 to Day <!-- -->9</p>'),
+              ('<small>Lessons logged</small><strong>21</strong>', '<small>Lessons logged</small><strong>24</strong>'),
+              ('<small>Marks earned</small><strong>237</strong><p>Out of <!-- -->237<!-- --> recorded</p>', '<small>Marks earned</small><strong>286</strong><p>Out of <!-- -->286<!-- --> recorded</p>'),
+              ('<strong class="small-value">Starts Day 8</strong>', '<strong class="small-value">Starts Day 10</strong>'),
+              ('<span>Pak Studies</span><strong>33<!-- -->/<!-- -->33</strong>', '<span>Pak Studies</span><strong>42<!-- -->/<!-- -->42</strong>'),
+              ('<span>Computer</span><strong>31<!-- -->/<!-- -->31</strong>', '<span>Computer</span><strong>46<!-- -->/<!-- -->46</strong>'),
+              ('<span>Tarjuma-tul-Quran</span><strong>22<!-- -->/<!-- -->22</strong>', '<span>Tarjuma-tul-Quran</span><strong>47<!-- -->/<!-- -->47</strong>'),
+              ('<h3>Day <!-- -->7<!-- --> snapshot</h3>', '<h3>Day <!-- -->9<!-- --> snapshot</h3>'),
+          ]
+          for old, new in overview_replacements:
+              s = s.replace(old, new)
+
           head_items = [
               ('/StudyForge/manifest.webmanifest', '<link rel="manifest" href="/StudyForge/manifest.webmanifest"/><meta name="theme-color" content="#6f54ed"/>'),
               ('/StudyForge/study-center-day9.js', '<script defer src="/StudyForge/study-center-day9.js?v=1"></script>'),
@@ -55,6 +75,7 @@ jobs:
               ('/StudyForge/book-solutions-data.js', '<script defer src="/StudyForge/book-solutions-data.js?v=1"></script>'),
               ('/StudyForge/book-solutions-day9.js', '<script defer src="/StudyForge/book-solutions-day9.js?v=1"></script>'),
               ('/StudyForge/book-solutions.js', '<script defer src="/StudyForge/book-solutions.js?v=1"></script>'),
+              ('/StudyForge/overview-day9.js', '<script defer src="/StudyForge/overview-day9.js?v=1"></script>'),
           ]
           for marker, tag in body_items:
               if marker not in s:
