@@ -15,7 +15,7 @@
     const total=Number(p.total)||1200;
     const target=Number(p.target)||1100;
     const expected=Math.max(1,Math.min(100,Number(p.expected)||90));
-    const recorded=100;
+    const recorded=85.2;
     const mastered=masteryCount();
     const masteryPct=Math.round(mastered/TOTAL_BLOCKS*100);
     const blended=recorded*.35+expected*.65;
@@ -25,7 +25,7 @@
     const hi=Math.min(total,projection+uncertainty);
     const targetPct=Math.round(target/total*1000)/10;
     const gap=Math.max(0,target-projection);
-    return {total,target,expected,mastered,masteryPct,projection,lo,hi,targetPct,gap};
+    return {total,target,expected,recorded,mastered,masteryPct,projection,lo,hi,targetPct,gap};
   }
 
   function ensureNav(){
@@ -72,7 +72,7 @@
         <div class="sfmp-score"><strong>${d.projection}</strong><span>mid estimate</span></div>
       </section>
       <section class="sfmp-grid three">
-        <article class="sfmp-card"><span>Recorded test accuracy</span><strong>100%</strong><p>Current recorded final marks: 237/237.</p></article>
+        <article class="sfmp-card"><span>Recorded board-exam accuracy</span><strong>${d.recorded}%</strong><p>Board Exam Part 1: 52/61. Study mastery bank: 286/286.</p></article>
         <article class="sfmp-card"><span>Syllabus mastery signal</span><strong>${d.masteryPct}%</strong><p>${d.mastered}/${TOTAL_BLOCKS} tracked blocks currently mastered.</p></article>
         <article class="sfmp-card"><span>Target requirement</span><strong>${d.targetPct}%</strong><p>${d.gap?`${d.gap} marks below current midpoint.`:'Current midpoint is at/above target.'}</p></article>
       </section>
@@ -83,7 +83,7 @@
           <label>Your target<input id="sfmp-target" type="number" value="${d.target}"></label>
           <label>Expected exam accuracy %<input id="sfmp-expected" type="number" min="1" max="100" value="${d.expected}"></label>
         </div>
-        <p>Expected exam accuracy ko realistic rakho. Predictor recorded accuracy aur expected exam accuracy ko blend karta hai, phir incomplete syllabus ke liye uncertainty add karta hai.</p>
+        <p>Expected exam accuracy ko realistic rakho. Predictor latest board-exam accuracy aur expected exam accuracy ko blend karta hai, phir incomplete syllabus ke liye uncertainty add karta hai.</p>
       </section>`;
 
     ['total','target','expected'].forEach(k=>{
