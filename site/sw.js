@@ -1,4 +1,4 @@
-const C='studyforge-v12';
+const C='studyforge-v13';
 const A=['/StudyForge/','/StudyForge/index.html','/StudyForge/study-center.css','/StudyForge/study-center-fix.css','/StudyForge/study-center-plus.css','/StudyForge/marks-predictor-standalone.css','/StudyForge/book-solutions.css','/StudyForge/study-center-day8.js','/StudyForge/study-center.js','/StudyForge/study-center-plus.js','/StudyForge/marks-predictor-standalone.js','/StudyForge/book-solutions-data.js','/StudyForge/book-solutions-day9.js','/StudyForge/book-solutions.js','/StudyForge/overview-day8.js','/StudyForge/site-progress-day8.js','/StudyForge/favicon.svg','/StudyForge/assets/index-8gs8kE9x.css','/StudyForge/assets/page-BU6xjBOL.js','/StudyForge/assets/index-3D-xvmeP.js','/StudyForge/assets/framework-CXnKph_e.js','/StudyForge/assets/layout-segment-context-BEn7xxCh.js','/StudyForge/assets/rolldown-runtime-S-ySWqyJ.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(A)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
