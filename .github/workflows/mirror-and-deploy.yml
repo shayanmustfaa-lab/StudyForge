@@ -35,7 +35,7 @@ jobs:
           p = Path('site/index.html')
           s = p.read_text(encoding='utf-8')
           replacements = [
-              ('<strong>14 Aug 2026</strong>', '<strong>17 Aug 2026</strong>'),
+              ('<strong>14 Aug 2026</strong>', '<strong>19 Aug 2026</strong>'),
               ('DAY <!-- -->7<!-- --> COMPLETE', 'DAY <!-- -->8<!-- --> COMPLETE'),
               ('<h2>7<!-- --> study days. Strong start.</h2>', '<h2>8<!-- --> study days. Strong start.</h2>'),
               ('<strong>237<small>/<!-- -->237</small></strong>', '<strong>286<small>/<!-- -->286</small></strong>'),
@@ -72,6 +72,7 @@ jobs:
               ('/StudyForge/book-solutions.js', '<script defer src="/StudyForge/book-solutions.js?v=1"></script>'),
               ('/StudyForge/overview-day8.js', '<script defer src="/StudyForge/overview-day8.js?v=4"></script>'),
               ('/StudyForge/site-progress-day8.js', '<script defer src="/StudyForge/site-progress-day8.js?v=3"></script>'),
+              ('/StudyForge/schedule-break-aug20.js', '<script defer src="/StudyForge/schedule-break-aug20.js?v=1"></script>'),
           ]
           for marker, tag in body_items:
               if marker not in s:
